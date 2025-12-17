@@ -1,9 +1,9 @@
 [ {
-  "itemId" : "1208950",
+  "itemId" : "1080488",
   "brand" : "awd",
   "color" : "awd",
   "itemType" : "Fiskespö",
-  "available" : false,
+  "available" : true,
   "gearRatio" : null,
   "reelType" : null,
   "maxDrag" : null,

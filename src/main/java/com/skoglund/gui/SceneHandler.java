@@ -42,17 +42,21 @@ public class SceneHandler {
 
     public void switchToMainMenu(){
         stage.setScene(mainMenuScene.showMainMenu());
+        stage.setMaximized(true);
     }
 
     public void switchToItemScene(){
         stage.setScene(itemScene.showItemScene());
+        stage.setMaximized(true);
     }
 
     public void switchToMemberRegistryScene(){
         stage.setScene(memberRegistryScene.showMemberRegistryScene());
+        stage.setMaximized(true);
     }
 
     public void switchToRentalScene(){
         stage.setScene(rentalScene.showRentalScene());
+        stage.setMaximized(true);
     }
 }

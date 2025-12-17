@@ -85,7 +85,8 @@ public class Main extends Application {
         sceneHandler.setStage(stage);
 
         stage.setScene(mainMenuScene.showMainMenu());
-        stage.setMaximized(true);
+        stage.setMinHeight(600);
+        stage.setMinWidth(900);
         stage.show();
 
 

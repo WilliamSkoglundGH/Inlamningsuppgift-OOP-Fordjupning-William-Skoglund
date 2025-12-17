@@ -30,7 +30,7 @@ public class MemberRentalHistoryWindow {
         windowTitelHBox.setAlignment(Pos.CENTER);
 
         VBox rentalHistoryVBox = new VBox();
-        rentalHistoryVBox.setSpacing(5);
+        rentalHistoryVBox.setSpacing(15);
         rentalHistoryVBox.setPadding(new Insets(10));
         List<String> memberRentalHistory = member.getRentalHistory();
         if(memberRentalHistory.isEmpty()){

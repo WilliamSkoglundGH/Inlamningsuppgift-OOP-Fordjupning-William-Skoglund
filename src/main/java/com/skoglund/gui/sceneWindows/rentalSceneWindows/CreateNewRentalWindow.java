@@ -72,12 +72,7 @@ public class CreateNewRentalWindow {
         Label tableDescription = new Label("Tillgänglig utrustning");
         tableDescription.setStyle("-fx-font-size: 18;");
 
-        Button showMoreInfo = new Button("Visa utrustningsinformation");
-        showMoreInfo.setOnAction(e ->{
-
-        });
-
-        VBox availableItemsTableVBox = new VBox(tableDescription, availableItemsTableView, showMoreInfo);
+        VBox availableItemsTableVBox = new VBox(tableDescription, availableItemsTableView);
         availableItemsTableVBox.setSpacing(10);
         availableItemsTableVBox.setPadding(new Insets(20));
 
