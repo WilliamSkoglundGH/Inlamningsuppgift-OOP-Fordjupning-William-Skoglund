@@ -21,13 +21,13 @@ public class ItemData {
     //Attribut specifika för LureSet
     private String lureType;
 
-    public ItemData(){
+    public ItemData() {
 
     }
 
     //Konstruktor för sparande av FishingReel
     public ItemData(String itemId, String brand, String color, String itemType, boolean available,
-                    String gearRatio, String reelType, Integer maxDrag){
+                    String gearRatio, String reelType, Integer maxDrag) {
         this.itemId = itemId;
         this.brand = brand;
         this.color = color;
@@ -37,9 +37,10 @@ public class ItemData {
         this.reelType = reelType;
         this.maxDrag = maxDrag;
     }
+
     //Konstruktor för sparande av FishingRod
     public ItemData(String itemId, String brand, String color, String itemType, boolean available,
-                    Double rodLength, Integer castingWeight, String rodType){
+                    Double rodLength, Integer castingWeight, String rodType) {
         this.itemId = itemId;
         this.brand = brand;
         this.color = color;
@@ -49,9 +50,10 @@ public class ItemData {
         this.castingWeight = castingWeight;
         this.rodType = rodType;
     }
+
     //Konstruktor för sparande av Betesset
     public ItemData(String itemId, String brand, String color, String itemType, boolean available,
-                    String lureType){
+                    String lureType) {
         this.itemId = itemId;
         this.brand = brand;
         this.color = color;
@@ -76,7 +78,7 @@ public class ItemData {
         return itemType;
     }
 
-    public boolean isAvailable(){
+    public boolean isAvailable() {
         return available;
     }
 

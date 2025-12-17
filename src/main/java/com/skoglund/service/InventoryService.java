@@ -9,23 +9,23 @@ import java.io.IOException;
 public class InventoryService {
     private Inventory inventory;
 
-    public InventoryService(){
+    public InventoryService() {
 
     }
 
-    public InventoryService(Inventory inventory){
+    public InventoryService(Inventory inventory) {
         this.inventory = inventory;
     }
 
-    public void addNewItem(Item item){
+    public void addNewItem(Item item) {
         inventory.addItem(item);
     }
 
-    public void removeItem(Item item){
+    public void removeItem(Item item) {
         inventory.removeItem(item);
     }
 
-    public Item getItem(String itemId){
+    public Item getItem(String itemId) {
         return inventory.getItem(itemId);
     }
 
@@ -37,12 +37,11 @@ public class InventoryService {
         return inventory.getAvailableItems();
     }
 
-    public void changeItemInfo(Item item, String brand, String color, boolean availability){
+    public void changeItemInfo(Item item, String brand, String color, boolean availability) {
         item.setBrand(brand);
         item.setColor(color);
         item.setAvailable(availability);
     }
-
 
 
 }

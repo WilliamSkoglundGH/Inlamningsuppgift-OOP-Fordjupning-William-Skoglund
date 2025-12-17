@@ -9,27 +9,28 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.control.Label;
 
 public class AddNewFishingRodWindow {
     private InventoryService inventoryService;
     private ConfirmationWindow confirmationWindow;
 
-    public AddNewFishingRodWindow(){
+    public AddNewFishingRodWindow() {
 
     }
-    public AddNewFishingRodWindow(InventoryService inventoryService, ConfirmationWindow confirmationWindow){
+
+    public AddNewFishingRodWindow(InventoryService inventoryService, ConfirmationWindow confirmationWindow) {
         this.inventoryService = inventoryService;
         this.confirmationWindow = confirmationWindow;
     }
 
-    public void showAddNewFishingRodWindow(){
+    public void showAddNewFishingRodWindow() {
         Stage addNewFishingPoleStage = new Stage();
         addNewFishingPoleStage.initModality(Modality.APPLICATION_MODAL);
         addNewFishingPoleStage.setMinWidth(700);
@@ -46,7 +47,7 @@ public class AddNewFishingRodWindow {
         HBox windowSubTitel = new HBox(fishingPoleInfoLabel);
         windowSubTitel.setAlignment(Pos.CENTER);
 
-        VBox windowTitelsVBox = new VBox(titleLabel,windowSubTitel);
+        VBox windowTitelsVBox = new VBox(titleLabel, windowSubTitel);
         windowTitelsVBox.setSpacing(7);
 
 
@@ -73,7 +74,7 @@ public class AddNewFishingRodWindow {
             String castingWeight = castingWeightTextField.getText();
             String rodType = rodTypeTextField.getText();
 
-            try{
+            try {
                 ValidationMethods.validateNewFishingPole(brand, color, rodLength, castingWeight, rodType);
                 double rodLengthDouble = Double.parseDouble(rodLength);
                 int castingWeightInt = Integer.parseInt(castingWeight);
@@ -86,7 +87,7 @@ public class AddNewFishingRodWindow {
                 addNewFishingPoleStage.close();
 
 
-            }catch(InvalidInputException exception){
+            } catch (InvalidInputException exception) {
                 confirmationWindow.showConfirmationWindow("Process misslyckad",
                         "Fiskespöt kunde inte läggas till i klubben!",
                         exception.getMessage());

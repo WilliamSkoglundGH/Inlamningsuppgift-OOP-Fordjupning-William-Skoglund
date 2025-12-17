@@ -12,15 +12,16 @@ import javafx.scene.layout.VBox;
 public class MainMenuScene {
     private SceneHandler sceneHandler;
 
-    public MainMenuScene(){
+    public MainMenuScene() {
 
     }
-    public MainMenuScene(SceneHandler sceneHandler){
+
+    public MainMenuScene(SceneHandler sceneHandler) {
         this.sceneHandler = sceneHandler;
 
     }
 
-    public Scene showMainMenu(){
+    public Scene showMainMenu() {
         Label titleLabel = new Label("Välkommen till medlemsklubben för sportfiskare!");
         titleLabel.setStyle("-fx-font-size:33; -fx-text-fill: white; -fx-font-family: 'Comic Sans MS';" +
                 "-fx-font-weight: bold;");
@@ -49,7 +50,7 @@ public class MainMenuScene {
         showMemberRegistrySceneButton.setStyle("-fx-font-size:15; -fx-font-weight:bold;");
         VBox choiceMemberRegistryScene = new VBox(memberRegistryButtonLabel, showMemberRegistrySceneButton);
         choiceMemberRegistryScene.setSpacing(5);
-        showMemberRegistrySceneButton.setOnAction(e ->{
+        showMemberRegistrySceneButton.setOnAction(e -> {
             sceneHandler.switchToMemberRegistryScene();
         });
 
@@ -62,7 +63,7 @@ public class MainMenuScene {
         VBox choiceRentalScene = new VBox(rentalButtonLabel, showRentalSceneButton);
         choiceRentalScene.setAlignment(Pos.BOTTOM_CENTER);
         choiceRentalScene.setSpacing(5);
-        showRentalSceneButton.setOnAction(e ->{
+        showRentalSceneButton.setOnAction(e -> {
             sceneHandler.switchToRentalScene();
         });
 

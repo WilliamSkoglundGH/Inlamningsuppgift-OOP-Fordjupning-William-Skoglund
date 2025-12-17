@@ -1,6 +1,8 @@
 package com.skoglund.entity;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class Member {
     private String name;
@@ -11,10 +13,11 @@ public class Member {
     // Vid återstart laddas de med sparad data från JSON
     private final List<String> rentalHistory = new ArrayList<>();
 
-    public Member(){
+    public Member() {
 
     }
-    public Member(String name, String ageGroup){
+
+    public Member(String name, String ageGroup) {
         this.name = name;
         this.ageGroup = ageGroup;
         this.id = createRandomId();
@@ -48,14 +51,14 @@ public class Member {
         this.id = id;
     }
 
-    public void addNewRentalToHistory(String rentalInfo){
+    public void addNewRentalToHistory(String rentalInfo) {
         rentalHistory.add(rentalInfo);
     }
 
-    private String createRandomId(){
+    private String createRandomId() {
         StringBuilder randomId = new StringBuilder();
         Random random = new Random();
-        for(int i = 0; i < 7; i++){
+        for (int i = 0; i < 7; i++) {
             randomId.append(random.nextInt(10));
         }
         return randomId.toString();

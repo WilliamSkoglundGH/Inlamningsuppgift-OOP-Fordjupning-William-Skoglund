@@ -1,8 +1,5 @@
 package com.skoglund.entity.item;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.skoglund.entity.ItemData;
 
 import java.util.Random;
@@ -13,37 +10,38 @@ public abstract class Item {
     private String color;
     private boolean isAvailable;
 
-    public Item(){
+    public Item() {
 
     }
-    public Item(String brand, String color){
+
+    public Item(String brand, String color) {
         this.itemId = createRandomId();
         this.brand = brand;
         this.color = color;
         this.isAvailable = true;
     }
 
-    public String getItemId(){
+    public String getItemId() {
         return itemId;
     }
 
-    public String getBrand(){
+    public String getBrand() {
         return this.brand;
     }
 
-    public String getColor(){
+    public String getColor() {
         return this.color;
     }
 
-    public boolean isAvailable(){
+    public boolean isAvailable() {
         return isAvailable;
     }
 
-    public void setBrand(String brand){
+    public void setBrand(String brand) {
         this.brand = brand;
     }
 
-    public void setColor(String color){
+    public void setColor(String color) {
         this.color = color;
     }
 
@@ -55,20 +53,20 @@ public abstract class Item {
         isAvailable = available;
     }
 
-    private String createRandomId(){
+    private String createRandomId() {
         StringBuilder randomId = new StringBuilder();
         Random random = new Random();
-        for(int i = 0; i < 7; i++){
+        for (int i = 0; i < 7; i++) {
             randomId.append(random.nextInt(10));
         }
         return randomId.toString();
     }
 
-    public void setToNotAvailable(){
+    public void setToNotAvailable() {
         this.isAvailable = false;
     }
 
-    public void setToAvailable(){
+    public void setToAvailable() {
         this.isAvailable = true;
     }
 

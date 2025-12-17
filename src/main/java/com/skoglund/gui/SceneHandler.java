@@ -1,12 +1,9 @@
 package com.skoglund.gui;
 
-import com.skoglund.Main;
 import com.skoglund.gui.scenes.ItemScene;
 import com.skoglund.gui.scenes.MainMenuScene;
 import com.skoglund.gui.scenes.MemberRegistryScene;
 import com.skoglund.gui.scenes.RentalScene;
-import javafx.application.Platform;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class SceneHandler {
@@ -16,7 +13,7 @@ public class SceneHandler {
     private RentalScene rentalScene;
     private Stage stage;
 
-    public SceneHandler(){
+    public SceneHandler() {
 
     }
 
@@ -40,22 +37,22 @@ public class SceneHandler {
         this.stage = stage;
     }
 
-    public void switchToMainMenu(){
+    public void switchToMainMenu() {
         stage.setScene(mainMenuScene.showMainMenu());
         stage.setMaximized(true);
     }
 
-    public void switchToItemScene(){
+    public void switchToItemScene() {
         stage.setScene(itemScene.showItemScene());
         stage.setMaximized(true);
     }
 
-    public void switchToMemberRegistryScene(){
+    public void switchToMemberRegistryScene() {
         stage.setScene(memberRegistryScene.showMemberRegistryScene());
         stage.setMaximized(true);
     }
 
-    public void switchToRentalScene(){
+    public void switchToRentalScene() {
         stage.setScene(rentalScene.showRentalScene());
         stage.setMaximized(true);
     }

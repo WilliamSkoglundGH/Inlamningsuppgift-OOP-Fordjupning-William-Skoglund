@@ -3,14 +3,14 @@ package com.skoglund.repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.skoglund.entity.Rental;
-import com.skoglund.entity.item.Item;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class RentalRegistry {
     private ObservableList<Rental> allRentals = FXCollections.observableArrayList();
@@ -19,33 +19,33 @@ public class RentalRegistry {
         loadRentalsFromFile();
     }
 
-    public ObservableList<Rental> getAllRentals(){
+    public ObservableList<Rental> getAllRentals() {
         return allRentals;
     }
 
-    public void addNewRental(Rental rental){
+    public void addNewRental(Rental rental) {
         allRentals.add(rental);
     }
 
     private List<Rental> getRentalsFromFile() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
-            File rentalJsonFile = new File("rentals.json");
-            if(!rentalJsonFile.exists() || rentalJsonFile.length() == 0){
-                mapper.writeValue(rentalJsonFile, new ArrayList<>());
-            }
-            List<Rental> fromFile = Arrays.asList(mapper.readValue(new File("rentals.json"),
-                    Rental[].class));
-            return fromFile;
+        File rentalJsonFile = new File("rentals.json");
+        if (!rentalJsonFile.exists() || rentalJsonFile.length() == 0) {
+            mapper.writeValue(rentalJsonFile, new ArrayList<>());
+        }
+        List<Rental> fromFile = Arrays.asList(mapper.readValue(new File("rentals.json"),
+                Rental[].class));
+        return fromFile;
     }
 
-    public void saveRentalListToFile(){
+    public void saveRentalListToFile() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
-        try{
+        try {
             mapper.writeValue(new File("rentals.json"), allRentals);
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.println("Att skriva till filen rentals.json misslyckades" +
                     e.getMessage());
             System.out.println("Uthyrningsregistret sparades ej till filen");

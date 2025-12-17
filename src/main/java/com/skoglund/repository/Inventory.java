@@ -7,7 +7,6 @@ import com.skoglund.entity.item.FishingReel;
 import com.skoglund.entity.item.FishingRod;
 import com.skoglund.entity.item.Item;
 import com.skoglund.entity.item.LureSet;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -24,15 +23,15 @@ public class Inventory {
         loadItemListFromFile();
     }
 
-    public ObservableList<Item> getItemList(){
+    public ObservableList<Item> getItemList() {
         return itemList;
     }
 
-    public void addItem(Item item){
+    public void addItem(Item item) {
         itemList.add(item);
     }
 
-    public void removeItem(Item item){
+    public void removeItem(Item item) {
         itemList.remove(item);
     }
 
@@ -41,11 +40,11 @@ public class Inventory {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         List<ItemData> itemDataList = new ArrayList<>();
-        for(Item item : itemList){
+        for (Item item : itemList) {
             ItemData itemData = item.toDataItemForm();
             itemDataList.add(itemData);
-            }
-            mapper.writeValue(new File("items.json"), itemDataList);
+        }
+        mapper.writeValue(new File("items.json"), itemDataList);
     }
 
     public List<Item> getItemListFromFile() throws IOException {
@@ -54,41 +53,41 @@ public class Inventory {
 
 
         File itemJsonFile = new File("items.json");
-        if(!itemJsonFile.exists() || itemJsonFile.length() == 0){
-                mapper.writeValue(new File("items.json"), new ArrayList<>());
+        if (!itemJsonFile.exists() || itemJsonFile.length() == 0) {
+            mapper.writeValue(new File("items.json"), new ArrayList<>());
+        }
+        List<ItemData> fromFile = Arrays.asList(mapper.readValue(new File("items.json"),
+                ItemData[].class));
+
+        List<Item> updatedItemList = new ArrayList<>();
+        Item item;
+        for (ItemData itemData : fromFile) {
+            switch (itemData.getItemType()) {
+                case "Fiskerulle":
+                    item = new FishingReel(itemData.getBrand(), itemData.getColor(),
+                            itemData.getGearRatio(), itemData.getReelType(), itemData.getMaxDrag());
+                    item.setItemId(itemData.getItemId());
+                    item.setAvailable(itemData.isAvailable());
+                    updatedItemList.add(item);
+                    break;
+
+                case "Fiskespö":
+                    item = new FishingRod(itemData.getBrand(), itemData.getColor(),
+                            itemData.getRodLength(), itemData.getCastingWeight(), itemData.getRodType());
+                    item.setItemId(itemData.getItemId());
+                    item.setAvailable(itemData.isAvailable());
+                    updatedItemList.add(item);
+                    break;
+
+                case "Betesset":
+                    item = new LureSet(itemData.getBrand(), itemData.getColor(), itemData.getLureType());
+                    item.setItemId(itemData.getItemId());
+                    item.setAvailable(itemData.isAvailable());
+                    updatedItemList.add(item);
+                    break;
             }
-            List<ItemData> fromFile = Arrays.asList(mapper.readValue(new File("items.json"),
-                    ItemData[].class));
-
-            List<Item> updatedItemList = new ArrayList<>();
-            Item item;
-            for(ItemData itemData : fromFile){
-                switch(itemData.getItemType()){
-                    case "Fiskerulle":
-                        item = new FishingReel(itemData.getBrand(), itemData.getColor(),
-                                itemData.getGearRatio(), itemData.getReelType(), itemData.getMaxDrag());
-                        item.setItemId(itemData.getItemId());
-                        item.setAvailable(itemData.isAvailable());
-                        updatedItemList.add(item);
-                        break;
-
-                    case "Fiskespö":
-                        item = new FishingRod(itemData.getBrand(), itemData.getColor(),
-                                itemData.getRodLength(), itemData.getCastingWeight(), itemData.getRodType());
-                        item.setItemId(itemData.getItemId());
-                        item.setAvailable(itemData.isAvailable());
-                        updatedItemList.add(item);
-                        break;
-
-                    case "Betesset":
-                        item = new LureSet(itemData.getBrand(), itemData.getColor(), itemData.getLureType());
-                        item.setItemId(itemData.getItemId());
-                        item.setAvailable(itemData.isAvailable());
-                        updatedItemList.add(item);
-                        break;
-                }
-            }
-            return updatedItemList;
+        }
+        return updatedItemList;
     }
 
     public void loadItemListFromFile() throws IOException {
@@ -96,11 +95,12 @@ public class Inventory {
         itemList.setAll(getItemListFromFile());
     }
 
-    public Item getItem(String itemId){
+    public Item getItem(String itemId) {
         Item foundItem = itemList.stream().filter(i -> itemId.equalsIgnoreCase(i.getItemId())).
                 findFirst().get();
         return foundItem;
     }
+
     public ObservableList<Item> getAvailableItems() {
         ObservableList<Item> availableItems = FXCollections.observableArrayList();
 

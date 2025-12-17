@@ -2,18 +2,18 @@ package com.skoglund.entity.item;
 
 import com.skoglund.entity.ItemData;
 
-public class FishingRod extends Item{
+public class FishingRod extends Item {
     private double rodLength;
     private int castingWeight;
     private String rodType;
 
-    public FishingRod(){
+    public FishingRod() {
 
     }
 
     public FishingRod(String brand, String color, double rodLength, int castingWeight,
-                      String rodType){
-        super(brand,color);
+                      String rodType) {
+        super(brand, color);
         this.rodLength = rodLength;
         this.castingWeight = castingWeight;
         this.rodType = rodType;
@@ -32,7 +32,7 @@ public class FishingRod extends Item{
 
     //Används för GUI, i choice box
     @Override
-    public String toString(){
+    public String toString() {
         return getItemType();
     }
 }

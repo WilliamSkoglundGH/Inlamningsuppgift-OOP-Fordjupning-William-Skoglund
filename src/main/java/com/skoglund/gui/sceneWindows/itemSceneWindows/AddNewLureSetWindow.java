@@ -21,16 +21,17 @@ public class AddNewLureSetWindow {
     private InventoryService inventoryService;
     private ConfirmationWindow confirmationWindow;
 
-    public AddNewLureSetWindow(){
+    public AddNewLureSetWindow() {
 
     }
-    public AddNewLureSetWindow(InventoryService inventoryService, ConfirmationWindow confirmationWindow){
+
+    public AddNewLureSetWindow(InventoryService inventoryService, ConfirmationWindow confirmationWindow) {
         this.inventoryService = inventoryService;
         this.confirmationWindow = confirmationWindow;
     }
 
 
-    public void showAddNewLureSetWindow(){
+    public void showAddNewLureSetWindow() {
         Stage addNewLureSetStage = new Stage();
         addNewLureSetStage.initModality(Modality.APPLICATION_MODAL);
         addNewLureSetStage.setMinWidth(700);
@@ -64,7 +65,7 @@ public class AddNewLureSetWindow {
             String brand = brandTextField.getText();
             String color = colorTextField.getText();
             String lureType = lureTypeTextField.getText();
-            try{
+            try {
                 ValidationMethods.validateNewLureSet(brand, color, lureType);
                 LureSet newLureSet = new LureSet(brand, color, lureType);
                 inventoryService.addNewItem(newLureSet);
@@ -74,7 +75,7 @@ public class AddNewLureSetWindow {
                 addNewLureSetStage.close();
 
 
-            }catch(InvalidInputException exception){
+            } catch (InvalidInputException exception) {
                 confirmationWindow.showConfirmationWindow("Process misslyckad",
                         "Betessettet kunde inte läggas till i klubben!",
                         exception.getMessage());

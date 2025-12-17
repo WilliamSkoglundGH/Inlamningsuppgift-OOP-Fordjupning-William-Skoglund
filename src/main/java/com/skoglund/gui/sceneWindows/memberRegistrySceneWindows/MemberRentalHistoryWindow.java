@@ -16,7 +16,7 @@ import java.util.List;
 
 public class MemberRentalHistoryWindow {
 
-    public void showRentalHistoryWindow(Member member){
+    public void showRentalHistoryWindow(Member member) {
         Stage rentalHistoryStage = new Stage();
         rentalHistoryStage.initModality(Modality.APPLICATION_MODAL);
         rentalHistoryStage.setMinWidth(700);
@@ -33,12 +33,11 @@ public class MemberRentalHistoryWindow {
         rentalHistoryVBox.setSpacing(15);
         rentalHistoryVBox.setPadding(new Insets(10));
         List<String> memberRentalHistory = member.getRentalHistory();
-        if(memberRentalHistory.isEmpty()){
+        if (memberRentalHistory.isEmpty()) {
             Label noRentals = new Label("Medlem har inga uthyrningar");
             rentalHistoryVBox.getChildren().add(noRentals);
-        }
-        else{
-            for(String history : memberRentalHistory){
+        } else {
+            for (String history : memberRentalHistory) {
                 Label rentalInfo = new Label(history);
                 rentalHistoryVBox.getChildren().add(rentalInfo);
             }
