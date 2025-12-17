@@ -20,7 +20,7 @@ import java.util.List;
 public class Inventory {
     private final ObservableList<Item> itemList = FXCollections.observableArrayList();
 
-    public Inventory(){
+    public Inventory() throws IOException {
         loadItemListFromFile();
     }
 
@@ -36,7 +36,7 @@ public class Inventory {
         itemList.remove(item);
     }
 
-    public void saveItemListToFile() {
+    public void saveItemListToFile() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
@@ -45,22 +45,16 @@ public class Inventory {
             ItemData itemData = item.toDataItemForm();
             itemDataList.add(itemData);
             }
-        try{
             mapper.writeValue(new File("items.json"), itemDataList);
-        }catch(IOException e){
-            System.out.println("Att skriva till filen items.json misslyckades" +
-                    e.getMessage());
-            System.out.println("Utrustningslistan sparades ej till filen");
-        }
     }
 
-    public List<Item> getItemListFromFile() {
+    public List<Item> getItemListFromFile() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
-        try{
-            File itemJsonFile = new File("items.json");
-            if(!itemJsonFile.exists() || itemJsonFile.length() == 0){
+
+        File itemJsonFile = new File("items.json");
+        if(!itemJsonFile.exists() || itemJsonFile.length() == 0){
                 mapper.writeValue(new File("items.json"), new ArrayList<>());
             }
             List<ItemData> fromFile = Arrays.asList(mapper.readValue(new File("items.json"),
@@ -95,16 +89,9 @@ public class Inventory {
                 }
             }
             return updatedItemList;
-
-        }catch(IOException e){
-            System.out.println("Filen: items.json kunde inte läsas in korrekt: " + e.getMessage());
-            System.out.println("Felet måste åtgärdas innan applikation kan köras");
-            Platform.exit();
-            return null;
-        }
     }
 
-    public void loadItemListFromFile(){
+    public void loadItemListFromFile() throws IOException {
         itemList.clear();
         itemList.setAll(getItemListFromFile());
     }

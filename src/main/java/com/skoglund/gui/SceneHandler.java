@@ -5,6 +5,7 @@ import com.skoglund.gui.scenes.ItemScene;
 import com.skoglund.gui.scenes.MainMenuScene;
 import com.skoglund.gui.scenes.MemberRegistryScene;
 import com.skoglund.gui.scenes.RentalScene;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 

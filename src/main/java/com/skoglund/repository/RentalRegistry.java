@@ -15,7 +15,7 @@ import java.util.*;
 public class RentalRegistry {
     private ObservableList<Rental> allRentals = FXCollections.observableArrayList();
 
-    public RentalRegistry(){
+    public RentalRegistry() throws IOException {
         loadRentalsFromFile();
     }
 
@@ -27,10 +27,9 @@ public class RentalRegistry {
         allRentals.add(rental);
     }
 
-    private List<Rental> getRentalsFromFile(){
+    private List<Rental> getRentalsFromFile() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        try{
             File rentalJsonFile = new File("rentals.json");
             if(!rentalJsonFile.exists() || rentalJsonFile.length() == 0){
                 mapper.writeValue(rentalJsonFile, new ArrayList<>());
@@ -38,12 +37,6 @@ public class RentalRegistry {
             List<Rental> fromFile = Arrays.asList(mapper.readValue(new File("rentals.json"),
                     Rental[].class));
             return fromFile;
-        }catch(IOException e){
-            System.out.println("Filen: rentals.json kunde inte läsas in korrekt: " + e.getMessage());
-            System.out.println("Felet måste åtgärdas innan applikation kan köras");
-            Platform.exit();
-            return null;
-        }
     }
 
     public void saveRentalListToFile(){
@@ -59,7 +52,7 @@ public class RentalRegistry {
         }
     }
 
-    public void loadRentalsFromFile(){
+    public void loadRentalsFromFile() throws IOException {
         allRentals.clear();
         allRentals.setAll(getRentalsFromFile());
     }

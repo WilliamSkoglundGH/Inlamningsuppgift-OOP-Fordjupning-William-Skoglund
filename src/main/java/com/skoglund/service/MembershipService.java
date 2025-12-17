@@ -2,6 +2,9 @@ package com.skoglund.service;
 
 import com.skoglund.entity.Member;
 import com.skoglund.repository.MemberRegistry;
+import javafx.scene.control.Alert;
+
+import java.io.IOException;
 
 public class MembershipService {
     private MemberRegistry memberRegistry;
@@ -18,12 +21,8 @@ public class MembershipService {
         memberRegistry.addMember(member);
     }
 
-    public void deleteMemberFromFile(){
-        //Lägg till denna funktionalitet i applikationen
-    }
-
-    public void saveMemberListToFile() {
-        memberRegistry.saveMemberListToFile();
+    public void saveMemberListToFile() throws IOException {
+            memberRegistry.saveMemberListToFile();
     }
 
     public Member searchAndGetMember(String id){

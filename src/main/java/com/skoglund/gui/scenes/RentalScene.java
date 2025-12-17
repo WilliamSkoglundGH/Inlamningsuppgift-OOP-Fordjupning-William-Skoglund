@@ -17,6 +17,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
+
 
 public class RentalScene {
     private RentalService rentalService;
@@ -84,10 +86,19 @@ public class RentalScene {
 
         Button createNewRentalButton = new Button("Boka ny uthyrning");
         createNewRentalButton.setOnAction(e ->{
-            inventory.loadItemListFromFile();
-            memberRegistry.loadMemberListFromFile();
-            createNewRentalWindow.showNewRentalWindow();
-            rentalTableView.setItems(rentalService.getActiveRentals());
+            try{
+                inventory.loadItemListFromFile();
+                memberRegistry.loadMemberListFromFile();
+                createNewRentalWindow.showNewRentalWindow();
+                rentalTableView.setItems(rentalService.getActiveRentals());
+            }catch(IOException exception){
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setContentText("Att läsa in medlemmar och utrustningar misslyckades\n" +
+                        "Du kan därför inte genomföra en uthyrning, starta om applikationen");
+                System.out.println("FEL: läsandet av fil/filer: members.json/items.json misslyckades: " +
+                        exception.getMessage());
+                errorAlert.showAndWait();
+            }
         });
 
         Button finishRentalButton = new Button("Avsluta uthyrning");
@@ -99,12 +110,23 @@ public class RentalScene {
                         "Du måste först markera en uthyrning i tabellen för att avsluta den");
             }
             else{
-                rentalService.finishRental(highlitedRental);
-                rentalTableView.setItems(rentalService.getActiveRentals());
-                confirmationWindow.showConfirmationWindow("Uthyrning avslutad",
-                        "Uthyrning avslutades!",
-                        "ID för utrustning: " + highlitedRental.getItemId() + " ID för medlem: "
-                                + highlitedRental.getMemberId() + "| Uthyrningen avslutad!");
+                try{
+                    rentalService.finishRental(highlitedRental);
+                    rentalTableView.setItems(rentalService.getActiveRentals());
+                    confirmationWindow.showConfirmationWindow("Uthyrning avslutad",
+                            "Uthyrning avslutades!",
+                            "ID för utrustning: " + highlitedRental.getItemId() + " ID för medlem: "
+                                    + highlitedRental.getMemberId() + "| Uthyrningen avslutad!");
+                }catch(IOException exception){
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                    errorAlert.setTitle("Att avsluta uthyrningen misslyckades");
+                    errorAlert.setContentText("Din avslutning av uthyrning misslyckades");
+                    System.out.println("FEL: skrivandet till fil/er: members.json/item.json" +
+                            "/rental.json misslyckades: " +
+                            exception.getMessage());
+                    errorAlert.showAndWait();
+                }
+
             }
         });
 
@@ -124,6 +146,8 @@ public class RentalScene {
         tableViewAndButtonsVBox.setSpacing(10);
 
         Button returnToMainMenuButton = new Button("Återgå till huvudmeny");
+        returnToMainMenuButton.setStyle("-fx-background-color: red;" +
+                ";-fx-text-fill: white; -fx-font-weight: bold;");
         returnToMainMenuButton.setOnAction(e ->{
             sceneHandler.switchToMainMenu();
         });
