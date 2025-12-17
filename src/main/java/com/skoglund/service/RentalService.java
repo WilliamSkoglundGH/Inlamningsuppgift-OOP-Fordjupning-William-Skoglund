@@ -4,7 +4,6 @@ import com.skoglund.entity.Member;
 import com.skoglund.entity.Rental;
 import com.skoglund.entity.item.Item;
 import com.skoglund.price.*;
-import com.skoglund.repository.Inventory;
 import com.skoglund.repository.RentalRegistry;
 import javafx.collections.ObservableList;
 
@@ -15,12 +14,12 @@ public class RentalService {
     private InventoryService inventoryService;
     private MembershipService membershipService;
 
-    public RentalService(){
+    public RentalService() {
 
     }
 
     public RentalService(RentalRegistry rentalRegistry, InventoryService inventoryService,
-                         MembershipService membershipService){
+                         MembershipService membershipService) {
         this.rentalRegistry = rentalRegistry;
         this.inventoryService = inventoryService;
         this.membershipService = membershipService;
@@ -43,7 +42,7 @@ public class RentalService {
         rentalItem.setToAvailable();
         membershipService.searchAndGetMember(rental.getMemberId()).addNewRentalToHistory(
                 "Avslutad bokning:\n Utrustning: " + rentalItem.getItemType() +
-                        "| " + rental.getRentalTime() +" dagar | " + rental.getPrice() + "kr\n");
+                        "| " + rental.getRentalTime() + " dagar | " + rental.getPrice() + "kr\n");
         saveRegisterChanges();
 
     }
@@ -57,7 +56,7 @@ public class RentalService {
     public PricePolicy getMemberPricePolicy(Member member) {
         String memberAgeGroup = member.getAgeGroup();
 
-        switch(memberAgeGroup.toLowerCase()){
+        switch (memberAgeGroup.toLowerCase()) {
             case "vuxen":
                 return new AdultPrice();
 
@@ -79,15 +78,15 @@ public class RentalService {
         return rentalTime * pricePolicy.getPricePerDay();
     }
 
-    public double calculateClubRentalIncome(){
+    public double calculateClubRentalIncome() {
         double income = 0;
-        for(Rental rental : rentalRegistry.getAllRentals()){
+        for (Rental rental : rentalRegistry.getAllRentals()) {
             income += rental.getPrice();
         }
         return income;
     }
 
-    public ObservableList<Rental> getActiveRentals(){
+    public ObservableList<Rental> getActiveRentals() {
         return rentalRegistry.getActiveRentals();
     }
 

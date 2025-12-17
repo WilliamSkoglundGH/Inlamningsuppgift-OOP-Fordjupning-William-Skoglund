@@ -8,11 +8,11 @@ public class Rental {
     private boolean activeRental;
 
 
-
-    public Rental(){
+    public Rental() {
 
     }
-    public Rental(String memberId, String itemId, int rentalTime, double price){
+
+    public Rental(String memberId, String itemId, int rentalTime, double price) {
         this.memberId = memberId;
         this.itemId = itemId;
         this.rentalTime = rentalTime;
@@ -20,7 +20,7 @@ public class Rental {
         this.activeRental = true;
     }
 
-    public String getMemberId(){
+    public String getMemberId() {
         return memberId;
     }
 
@@ -40,7 +40,7 @@ public class Rental {
         return activeRental;
     }
 
-    public void setToFinished(){
+    public void setToFinished() {
         activeRental = false;
     }
 }

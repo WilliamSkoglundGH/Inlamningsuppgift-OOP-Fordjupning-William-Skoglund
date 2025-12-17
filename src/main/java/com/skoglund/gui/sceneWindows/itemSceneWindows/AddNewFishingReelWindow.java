@@ -21,14 +21,16 @@ public class AddNewFishingReelWindow {
     private InventoryService inventoryService;
     private ConfirmationWindow confirmationWindow;
 
-    public AddNewFishingReelWindow(){
+    public AddNewFishingReelWindow() {
 
     }
-    public AddNewFishingReelWindow(InventoryService inventoryService, ConfirmationWindow confirmationWindow){
+
+    public AddNewFishingReelWindow(InventoryService inventoryService, ConfirmationWindow confirmationWindow) {
         this.inventoryService = inventoryService;
         this.confirmationWindow = confirmationWindow;
     }
-    public void showAddNewFishingReelWindow(){
+
+    public void showAddNewFishingReelWindow() {
         Stage addNewFishingReelStage = new Stage();
         addNewFishingReelStage.initModality(Modality.APPLICATION_MODAL);
         addNewFishingReelStage.setMinWidth(700);
@@ -45,7 +47,7 @@ public class AddNewFishingReelWindow {
         HBox windowSubTitel = new HBox(fishingReelInfoLabel);
         windowSubTitel.setAlignment(Pos.CENTER);
 
-        VBox windowTitelsVBox = new VBox(titleLabel,windowSubTitel);
+        VBox windowTitelsVBox = new VBox(titleLabel, windowSubTitel);
         windowTitelsVBox.setSpacing(7);
 
         TextField brandTextField = new TextField();
@@ -71,7 +73,7 @@ public class AddNewFishingReelWindow {
             String reelType = reelTypeTextField.getText();
             String maxDrag = maxDragTextField.getText();
 
-            try{
+            try {
                 ValidationMethods.validateNewFishingReel(brand, color, gearRatio, reelType, maxDrag);
                 int maxDragInt = Integer.parseInt(maxDrag);
                 FishingReel newFishingReel = new FishingReel(brand, color, gearRatio, reelType, maxDragInt);
@@ -82,7 +84,7 @@ public class AddNewFishingReelWindow {
                 addNewFishingReelStage.close();
 
 
-            }catch(InvalidInputException exception){
+            } catch (InvalidInputException exception) {
                 confirmationWindow.showConfirmationWindow("Process misslyckad",
                         "Fiskerullen kunde inte läggas till i klubben!",
                         exception.getMessage());

@@ -1,14 +1,16 @@
-[ {
-  "itemId" : "1080488",
-  "brand" : "awd",
-  "color" : "awd",
-  "itemType" : "Fiskespö",
-  "available" : true,
-  "gearRatio" : null,
-  "reelType" : null,
-  "maxDrag" : null,
-  "rodLength" : 2.0,
-  "castingWeight" : 2,
-  "rodType" : "awd",
-  "lureType" : null
-} ]
+[
+  {
+    "itemId": "1080488",
+    "brand": "awd",
+    "color": "awd",
+    "itemType": "Fiskespö",
+    "available": false,
+    "gearRatio": null,
+    "reelType": null,
+    "maxDrag": null,
+    "rodLength": 2.0,
+    "castingWeight": 2,
+    "rodType": "awd",
+    "lureType": null
+  }
+]

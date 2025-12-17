@@ -7,7 +7,6 @@ import com.skoglund.gui.sceneWindows.itemSceneWindows.EditItemWindow;
 import com.skoglund.gui.sceneWindows.sharedWindows.ConfirmationWindow;
 import com.skoglund.repository.Inventory;
 import com.skoglund.service.InventoryService;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -116,10 +115,10 @@ public class ItemScene {
 
         Button updateTableViewButton = new Button("Uppdatera tabell");
         updateTableViewButton.setOnAction(e -> {
-            try{
+            try {
                 inventory.loadItemListFromFile();
                 changeTableViewFilter();
-            }catch (IOException exception) {
+            } catch (IOException exception) {
                 Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                 errorAlert.setTitle("Uppdatering misslyckades");
                 errorAlert.setContentText("Att uppdatera tabellen misslyckades!");
@@ -127,13 +126,13 @@ public class ItemScene {
                         exception.getMessage());
                 errorAlert.showAndWait();
             }
-            });
+        });
 
         Button saveChangesButton = new Button("Spara ändringar");
         saveChangesButton.setOnAction(e -> {
-            try{
+            try {
                 inventory.saveItemListToFile();
-            }catch(IOException exception){
+            } catch (IOException exception) {
                 Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                 errorAlert.setTitle("Sparandet misslyckades");
                 errorAlert.setContentText("Att spara dina ändringar misslyckades!");
@@ -174,7 +173,7 @@ public class ItemScene {
         return scene;
     }
 
-    private void changeTableViewFilter(){
+    private void changeTableViewFilter() {
         List<Item> filteredList = new ArrayList<>();
         for (Item item : inventory.getItemList()) {
             if (itemFilterChoiceBox.getValue().equals("Alla")) {

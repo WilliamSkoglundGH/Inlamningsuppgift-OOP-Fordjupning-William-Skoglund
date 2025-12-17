@@ -14,14 +14,13 @@ import com.skoglund.service.MembershipService;
 import com.skoglund.service.RentalService;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class Main extends Application {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         launch(args);
     }
 
@@ -52,11 +51,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        try{
+        try {
             memberRegistry = new MemberRegistry();
             rentalRegistry = new RentalRegistry();
             inventory = new Inventory();
-        }catch(IOException e){
+        } catch (IOException e) {
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
             errorAlert.setTitle("Fel i applikationen");
             errorAlert.setContentText("Applikationens data är korrupt, kontakta administration\n" +
@@ -67,7 +66,7 @@ public class Main extends Application {
         }
         inventoryService = new InventoryService(inventory);
         membershipService = new MembershipService(memberRegistry);
-        rentalService = new RentalService(rentalRegistry,inventoryService,membershipService);
+        rentalService = new RentalService(rentalRegistry, inventoryService, membershipService);
 
         sceneHandler = new SceneHandler();
 

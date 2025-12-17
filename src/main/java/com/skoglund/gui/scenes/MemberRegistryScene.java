@@ -46,7 +46,7 @@ public class MemberRegistryScene {
 
     }
 
-    public Scene showMemberRegistryScene(){
+    public Scene showMemberRegistryScene() {
         //Windows
         EditMemberWindow editMemberWindow = new EditMemberWindow();
         MemberRegisterConfirmation memberRegisterConfirmation = new MemberRegisterConfirmation();
@@ -137,14 +137,14 @@ public class MemberRegistryScene {
 
         saveMemberButton = new Button("Lägg till medlem");
         saveMemberButton.setOnAction(e -> {
-            try{
+            try {
                 String name = nameTextField.getText();
                 ValidationMethods.validateMemberName(name);
                 String ageGroup = ageGroupChoiceBox.getValue();
                 Member newMember = new Member(name, ageGroup);
                 membershipService.addNewMember(newMember);
                 memberRegisterConfirmation.showRegisterConfirmation(newMember);
-            }catch(InvalidInputException exception){
+            } catch (InvalidInputException exception) {
                 confirmationWindow.showConfirmationWindow("Felaktigt namn",
                         "Angett namn godkänns ej",
                         exception.getMessage());
@@ -156,9 +156,9 @@ public class MemberRegistryScene {
 
         updateListButton = new Button("Uppdatera medlemslista");
         updateListButton.setOnAction(e -> {
-            try{
+            try {
                 memberRegistry.loadMemberListFromFile();
-            }catch(IOException exception){
+            } catch (IOException exception) {
                 Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                 errorAlert.setTitle("Uppdatering misslyckades");
                 errorAlert.setContentText("Att uppdatera tabellen misslyckades!");
@@ -170,9 +170,9 @@ public class MemberRegistryScene {
 
         saveChangesButton = new Button("Spara ändringar");
         saveChangesButton.setOnAction(e -> {
-            try{
+            try {
                 membershipService.saveMemberListToFile();
-            }catch(IOException exception){
+            } catch (IOException exception) {
                 Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                 errorAlert.setTitle("Sparandet misslyckades");
                 errorAlert.setContentText("Att spara dina ändringar misslyckades!");
@@ -199,13 +199,12 @@ public class MemberRegistryScene {
         showRentalHistoryButton = new Button("Visa uthyrningshistorik");
         showRentalHistoryButton.setOnAction(e -> {
             Member highlitedMember = memberTableView.getSelectionModel().getSelectedItem();
-            if(highlitedMember == null){
-                confirmationWindow.showConfirmationWindow("Vald medlem saknas" ,
+            if (highlitedMember == null) {
+                confirmationWindow.showConfirmationWindow("Vald medlem saknas",
                         "Ingen medlem vald",
                         "Du måste markera (klicka på) en medlem i tabellen innan du klickar på knappen" +
                                 "(Visa uthyrningshistorik");
-            }
-            else{
+            } else {
                 memberRentalHistoryWindow.showRentalHistoryWindow(highlitedMember);
             }
         });
@@ -224,7 +223,7 @@ public class MemberRegistryScene {
         closeWindowHBox.setAlignment(Pos.BOTTOM_RIGHT);
         closeWindowHBox.setPadding(new Insets(10));
 
-        VBox memberRegistry = new VBox(tableViewTitelHBox, searchToolHBox,memberTableView, tableViewButtonsHBox);
+        VBox memberRegistry = new VBox(tableViewTitelHBox, searchToolHBox, memberTableView, tableViewButtonsHBox);
 
         //Root layouten (det yttersta skalet)
         rootLayout = new BorderPane();

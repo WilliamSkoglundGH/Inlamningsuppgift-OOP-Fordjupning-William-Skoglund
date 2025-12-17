@@ -34,13 +34,14 @@ public class RentalScene {
     //Scen hanterare som byter scener
     private SceneHandler sceneHandler;
 
-    public RentalScene(){
+    public RentalScene() {
 
     }
+
     public RentalScene(RentalService rentalService,
                        ConfirmationWindow confirmationWindow, InventoryService inventoryService,
                        MemberRegistry memberRegistry, SceneHandler sceneHandler,
-                       Inventory inventory){
+                       Inventory inventory) {
         this.rentalService = rentalService;
         this.confirmationWindow = confirmationWindow;
         this.inventoryService = inventoryService;
@@ -49,10 +50,10 @@ public class RentalScene {
         this.inventory = inventory;
     }
 
-    public Scene showRentalScene(){
+    public Scene showRentalScene() {
 
-        CreateNewRentalWindow createNewRentalWindow = new CreateNewRentalWindow(inventoryService,memberRegistry,
-                rentalService,confirmationWindow);
+        CreateNewRentalWindow createNewRentalWindow = new CreateNewRentalWindow(inventoryService, memberRegistry,
+                rentalService, confirmationWindow);
 
         Label titleLabel = new Label("Välkommen till sidan för att hantera klubbens uthyrningar");
         titleLabel.setStyle("-fx-font-size:25; -fx-text-fill: white; -fx-font-family: 'Comic Sans MS';");
@@ -85,13 +86,13 @@ public class RentalScene {
                 rentalPriceColumn);
 
         Button createNewRentalButton = new Button("Boka ny uthyrning");
-        createNewRentalButton.setOnAction(e ->{
-            try{
+        createNewRentalButton.setOnAction(e -> {
+            try {
                 inventory.loadItemListFromFile();
                 memberRegistry.loadMemberListFromFile();
                 createNewRentalWindow.showNewRentalWindow();
                 rentalTableView.setItems(rentalService.getActiveRentals());
-            }catch(IOException exception){
+            } catch (IOException exception) {
                 Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                 errorAlert.setContentText("Att läsa in medlemmar och utrustningar misslyckades\n" +
                         "Du kan därför inte genomföra en uthyrning, starta om applikationen");
@@ -104,20 +105,19 @@ public class RentalScene {
         Button finishRentalButton = new Button("Avsluta uthyrning");
         finishRentalButton.setOnAction(e -> {
             Rental highlitedRental = rentalTableView.getSelectionModel().getSelectedItem();
-            if(highlitedRental == null){
+            if (highlitedRental == null) {
                 confirmationWindow.showConfirmationWindow("Ingen uthyrning markerad",
                         "Ingen uthyrning markerad!",
                         "Du måste först markera en uthyrning i tabellen för att avsluta den");
-            }
-            else{
-                try{
+            } else {
+                try {
                     rentalService.finishRental(highlitedRental);
                     rentalTableView.setItems(rentalService.getActiveRentals());
                     confirmationWindow.showConfirmationWindow("Uthyrning avslutad",
                             "Uthyrning avslutades!",
                             "ID för utrustning: " + highlitedRental.getItemId() + " ID för medlem: "
                                     + highlitedRental.getMemberId() + "| Uthyrningen avslutad!");
-                }catch(IOException exception){
+                } catch (IOException exception) {
                     Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setTitle("Att avsluta uthyrningen misslyckades");
                     errorAlert.setContentText("Din avslutning av uthyrning misslyckades");
@@ -148,7 +148,7 @@ public class RentalScene {
         Button returnToMainMenuButton = new Button("Återgå till huvudmeny");
         returnToMainMenuButton.setStyle("-fx-background-color: red;" +
                 ";-fx-text-fill: white; -fx-font-weight: bold;");
-        returnToMainMenuButton.setOnAction(e ->{
+        returnToMainMenuButton.setOnAction(e -> {
             sceneHandler.switchToMainMenu();
         });
         HBox returnButtonHBox = new HBox(returnToMainMenuButton);
