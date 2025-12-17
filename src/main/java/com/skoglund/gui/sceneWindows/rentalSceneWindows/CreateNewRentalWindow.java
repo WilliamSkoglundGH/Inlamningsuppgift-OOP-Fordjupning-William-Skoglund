@@ -1,6 +1,7 @@
 package com.skoglund.gui.sceneWindows.rentalSceneWindows;
 
 import com.skoglund.entity.Member;
+import com.skoglund.entity.Rental;
 import com.skoglund.entity.item.Item;
 import com.skoglund.gui.sceneWindows.sharedWindows.ConfirmationWindow;
 import com.skoglund.price.PricePolicy;
@@ -17,6 +18,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class CreateNewRentalWindow {
     private InventoryService inventoryService;
@@ -105,30 +108,38 @@ public class CreateNewRentalWindow {
         Button bookRentalButton = new Button("Genomför uthyrning");
         bookRentalButton.setStyle("-fx-background-color: green; -fx-text-fill: white; -fx-font-weight: bold;");
         bookRentalButton.setOnAction(e -> {
-            if(memberTableView.getSelectionModel().getSelectedItem() == null ||
-                    availableItemsTableView.getSelectionModel().getSelectedItem() == null ||
-                    rentalPeriodComboBox.getValue() == null){
-                confirmationWindow.showConfirmationWindow("Uthyrning misslyckad",
-                        "Uthyrning misslyckad",
-                        "Du måste markera en utrustning i tabellen, en medlem i tabellen \noch" +
-                                " välja uthyrningsperiod för att genomföra en uthyrning");
-            }
-            else{
-                Member highlitedMember = memberTableView.getSelectionModel().getSelectedItem();
-                Item highlitedItem = availableItemsTableView.getSelectionModel().getSelectedItem();
-                int chosenRentalPeriod = rentalPeriodComboBox.getValue();
-                PricePolicy pricePolicyForChosenMember = rentalService.getMemberPricePolicy(highlitedMember);
-                double rentalPrice = rentalService.calculateRentalPrice(chosenRentalPeriod,
-                        pricePolicyForChosenMember);
-                rentalService.createNewRental(highlitedMember, highlitedItem, chosenRentalPeriod, rentalPrice);
-                confirmationWindow.showConfirmationWindow("Uthyrning genomförd",
-                        "Uthyrningen lyckades!",
-                        highlitedMember.getName() + " hyr: " + highlitedItem.getItemType() + " i " +
-                        chosenRentalPeriod + " dagar") ;
-                createNewRentalStage.close();
-            }
+                    if (memberTableView.getSelectionModel().getSelectedItem() == null ||
+                            availableItemsTableView.getSelectionModel().getSelectedItem() == null ||
+                            rentalPeriodComboBox.getValue() == null) {
+                        confirmationWindow.showConfirmationWindow("Uthyrning misslyckad",
+                                "Uthyrning misslyckad",
+                                "Du måste markera en utrustning i tabellen, en medlem i tabellen \noch" +
+                                        " välja uthyrningsperiod för att genomföra en uthyrning");
+                    } else {
+                        Member highlitedMember = memberTableView.getSelectionModel().getSelectedItem();
+                        Item highlitedItem = availableItemsTableView.getSelectionModel().getSelectedItem();
+                        int chosenRentalPeriod = rentalPeriodComboBox.getValue();
+                        PricePolicy pricePolicyForChosenMember = rentalService.getMemberPricePolicy(highlitedMember);
+                        double rentalPrice = rentalService.calculateRentalPrice(chosenRentalPeriod,
+                                pricePolicyForChosenMember);
+                        try {
+                            rentalService.createNewRental(highlitedMember, highlitedItem, chosenRentalPeriod, rentalPrice);
+                            confirmationWindow.showConfirmationWindow("Uthyrning genomförd",
+                                    "Uthyrningen lyckades!",
+                                    highlitedMember.getName() + " hyr: " + highlitedItem.getItemType() + " i " +
+                                            chosenRentalPeriod + " dagar");
+                        } catch (IOException exception) {
+                            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                            errorAlert.setTitle("Sparandet misslyckades");
+                            errorAlert.setContentText("Att spara den nya medlemmen misslyckades!");
+                            System.out.println("FEL: skrivandet till fil: members.json misslyckades: " +
+                                    exception.getMessage());
+                            errorAlert.showAndWait();
+                        }
+                        createNewRentalStage.close();
+                    }
+                });
 
-        });
         Button closeWindowButton = new Button("Stäng fönster");
         closeWindowButton.setStyle("-fx-background-color: red; -fx-text-fill: white; " +
                 "-fx-font-weight: bold;");

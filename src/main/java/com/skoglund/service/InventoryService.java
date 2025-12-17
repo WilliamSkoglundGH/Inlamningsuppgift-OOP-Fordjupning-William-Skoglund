@@ -4,6 +4,8 @@ import com.skoglund.entity.item.Item;
 import com.skoglund.repository.Inventory;
 import javafx.collections.ObservableList;
 
+import java.io.IOException;
+
 public class InventoryService {
     private Inventory inventory;
 
@@ -27,7 +29,7 @@ public class InventoryService {
         return inventory.getItem(itemId);
     }
 
-    public void saveItemListToFile(){
+    public void saveItemListToFile() throws IOException {
         inventory.saveItemListToFile();
     }
 

@@ -8,6 +8,8 @@ import com.skoglund.repository.Inventory;
 import com.skoglund.repository.RentalRegistry;
 import javafx.collections.ObservableList;
 
+import java.io.IOException;
+
 public class RentalService {
     private RentalRegistry rentalRegistry;
     private InventoryService inventoryService;
@@ -25,7 +27,8 @@ public class RentalService {
     }
 
 
-    public void createNewRental(Member member, Item item, int rentalTime, double rentalPrice) {
+    public void createNewRental(Member member, Item item, int rentalTime, double rentalPrice)
+            throws IOException {
         Rental newRental = new Rental(member.getId(), item.getItemId(), rentalTime, rentalPrice);
         rentalRegistry.addNewRental(newRental);
         item.setToNotAvailable();
@@ -34,7 +37,7 @@ public class RentalService {
         saveRegisterChanges();
     }
 
-    public void finishRental(Rental rental){
+    public void finishRental(Rental rental) throws IOException {
         rental.setToFinished();
         Item rentalItem = inventoryService.getItem(rental.getItemId());
         rentalItem.setToAvailable();
@@ -45,7 +48,7 @@ public class RentalService {
 
     }
 
-    private void saveRegisterChanges(){
+    private void saveRegisterChanges() throws IOException {
         inventoryService.saveItemListToFile();
         rentalRegistry.saveRentalListToFile();
         membershipService.saveMemberListToFile();

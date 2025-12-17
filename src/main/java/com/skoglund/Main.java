@@ -13,6 +13,7 @@ import com.skoglund.service.InventoryService;
 import com.skoglund.service.MembershipService;
 import com.skoglund.service.RentalService;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
@@ -25,14 +26,14 @@ public class Main extends Application {
     }
 
     //Repository klasser
-    MemberRegistry memberRegistry = new MemberRegistry();
-    RentalRegistry rentalRegistry = new RentalRegistry();
-    Inventory inventory = new Inventory();
+    MemberRegistry memberRegistry;
+    RentalRegistry rentalRegistry;
+    Inventory inventory;
 
     //Service klasser
-    InventoryService inventoryService = new InventoryService(inventory);
-    MembershipService membershipService = new MembershipService(memberRegistry);
-    RentalService rentalService = new RentalService(rentalRegistry, inventoryService, membershipService);
+    InventoryService inventoryService;
+    MembershipService membershipService;
+    RentalService rentalService;
 
     //GUI bekräftelse fönster (delat av alla scener)
     ConfirmationWindow confirmationWindow = new ConfirmationWindow();
@@ -52,20 +53,21 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         try{
-            InventoryService inventoryService = new InventoryService(inventory);
-            MembershipService membershipService = new MembershipService(memberRegistry);
-            RentalService rentalService = new RentalService(rentalRegistry, inventoryService, membershipService);
+            memberRegistry = new MemberRegistry();
+            rentalRegistry = new RentalRegistry();
+            inventory = new Inventory();
         }catch(IOException e){
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
             errorAlert.setTitle("Fel i applikationen");
             errorAlert.setContentText("Applikationens data är korrupt, kontakta administration\n" +
                     "Applikationen stängs ner!");
+            System.out.println("FEL: Inläsning av fil misslyckad: " + e.getMessage());
+            errorAlert.showAndWait();
+            Platform.exit();
         }
-
-
-
-
-
+        inventoryService = new InventoryService(inventory);
+        membershipService = new MembershipService(memberRegistry);
+        rentalService = new RentalService(rentalRegistry,inventoryService,membershipService);
 
         sceneHandler = new SceneHandler();
 
@@ -83,6 +85,7 @@ public class Main extends Application {
         sceneHandler.setStage(stage);
 
         stage.setScene(mainMenuScene.showMainMenu());
+        stage.setFullScreen(true);
         stage.show();
 
 

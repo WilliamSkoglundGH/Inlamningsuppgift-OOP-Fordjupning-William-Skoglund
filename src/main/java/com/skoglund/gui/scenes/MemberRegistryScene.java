@@ -20,6 +20,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
+
 public class MemberRegistryScene {
     private MemberRegistry memberRegistry;
     private MembershipService membershipService;
@@ -154,12 +156,30 @@ public class MemberRegistryScene {
 
         updateListButton = new Button("Uppdatera medlemslista");
         updateListButton.setOnAction(e -> {
-            memberRegistry.loadMemberListFromFile();
+            try{
+                memberRegistry.loadMemberListFromFile();
+            }catch(IOException exception){
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setTitle("Uppdatering misslyckades");
+                errorAlert.setContentText("Att uppdatera tabellen misslyckades!");
+                System.out.println("FEL: läsandet av fil: members.json misslyckades: " +
+                        exception.getMessage());
+                errorAlert.showAndWait();
+            }
         });
 
         saveChangesButton = new Button("Spara ändringar");
         saveChangesButton.setOnAction(e -> {
-            membershipService.saveMemberListToFile();
+            try{
+                membershipService.saveMemberListToFile();
+            }catch(IOException exception){
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setTitle("Sparandet misslyckades");
+                errorAlert.setContentText("Att spara dina ändringar misslyckades!");
+                System.out.println("FEL: skrivandet till fil: members.json misslyckades: " +
+                        exception.getMessage());
+                errorAlert.showAndWait();
+            }
         });
 
         editMemberButton = new Button("Redigera medlem");

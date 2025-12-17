@@ -15,6 +15,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class EditItemWindow {
     public EditItemWindow(){
 
@@ -104,7 +106,16 @@ public class EditItemWindow {
                     newItemAvailability = false;
                 }
                 inventoryService.changeItemInfo(item, newBrand, newColor, newItemAvailability);
-                inventoryService.saveItemListToFile();
+                try{
+                    inventoryService.saveItemListToFile();
+                }catch(IOException exception){
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                    errorAlert.setTitle("Sparandet misslyckades");
+                    errorAlert.setContentText("Att spara dina ändringar misslyckades!");
+                    System.out.println("FEL: skrivandet till fil: items.json misslyckades: " +
+                            exception.getMessage());
+                    errorAlert.showAndWait();
+                }
                 itemTableView.refresh();
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);

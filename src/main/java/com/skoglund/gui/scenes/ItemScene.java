@@ -7,6 +7,7 @@ import com.skoglund.gui.sceneWindows.itemSceneWindows.EditItemWindow;
 import com.skoglund.gui.sceneWindows.sharedWindows.ConfirmationWindow;
 import com.skoglund.repository.Inventory;
 import com.skoglund.service.InventoryService;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -17,6 +18,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -114,13 +116,31 @@ public class ItemScene {
 
         Button updateTableViewButton = new Button("Uppdatera tabell");
         updateTableViewButton.setOnAction(e -> {
-            inventory.loadItemListFromFile();
-            changeTableViewFilter();
-        });
+            try{
+                inventory.loadItemListFromFile();
+                changeTableViewFilter();
+            }catch (IOException exception) {
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setTitle("Uppdatering misslyckades");
+                errorAlert.setContentText("Att uppdatera tabellen misslyckades!");
+                System.out.println("FEL: läsandet av fil: items.json misslyckades: " +
+                        exception.getMessage());
+                errorAlert.showAndWait();
+            }
+            });
 
         Button saveChangesButton = new Button("Spara ändringar");
         saveChangesButton.setOnAction(e -> {
-            inventory.saveItemListToFile();
+            try{
+                inventory.saveItemListToFile();
+            }catch(IOException exception){
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setTitle("Sparandet misslyckades");
+                errorAlert.setContentText("Att spara dina ändringar misslyckades!");
+                System.out.println("FEL: skrivandet till fil: items.json misslyckades: " +
+                        exception.getMessage());
+                errorAlert.showAndWait();
+            }
         });
 
         Button returnToMainMenuButton = new Button("Återgå till huvudmeny");
