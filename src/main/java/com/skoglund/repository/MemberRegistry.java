@@ -3,6 +3,7 @@ package com.skoglund.repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.skoglund.entity.Member;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -11,10 +12,10 @@ import java.io.IOException;
 import java.util.*;
 
 public class MemberRegistry {
-    private ObservableList<Member> memberList;
+    private final ObservableList<Member> memberList = FXCollections.observableArrayList();
 
     public MemberRegistry() throws IOException {
-        convertListToObservable();
+        loadMemberListFromFile();
     }
 
     public void addMember(Member member){
@@ -29,22 +30,24 @@ public class MemberRegistry {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
-        mapper.writeValue(new File("members.json"), memberList);
+            mapper.writeValue(new File("members.json"), memberList);
     }
 
-    public List<Member> loadMembersFromFile() throws IOException {
+    private List<Member> getMembersFromFile() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        File jsonFile = new File("members.json");
-        if(!jsonFile.exists() || jsonFile.length() == 0){
-            mapper.writeValue(jsonFile, new ArrayList<>());
-        }
-        List<Member> fromFile = Arrays.asList(mapper.readValue(new File("members.json"),
-                Member[].class));
-        return fromFile;
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+            File memberJsonFile = new File("members.json");
+            if(!memberJsonFile.exists() || memberJsonFile.length() == 0){
+                mapper.writeValue(memberJsonFile, new ArrayList<Member>());
+            }
+            List<Member> fromFile = Arrays.asList(mapper.readValue(new File("members.json"),
+                    Member[].class));
+            return fromFile;
     }
 
-    public void convertListToObservable() throws IOException {
-        this.memberList = FXCollections.observableArrayList(loadMembersFromFile());
+    public void loadMemberListFromFile() throws IOException {
+        memberList.clear();
+        memberList.setAll(getMembersFromFile());
     }
 
     public Member searchAndReturnMember(String id){

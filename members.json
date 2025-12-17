@@ -1,57 +1,6 @@
 [ {
   "name" : "William",
   "ageGroup" : "Vuxen",
-  "id" : "6871281"
-}, {
-  "name" : "Ingrid",
-  "ageGroup" : "Ungdom",
-  "id" : "7590409"
-}, {
-  "name" : "Anna",
-  "ageGroup" : "Barn",
-  "id" : "1094594"
-}, {
-  "name" : "12",
-  "ageGroup" : "Barn",
-  "id" : "2703554"
-}, {
-  "name" : "David",
-  "ageGroup" : "Vuxen",
-  "id" : "2192091"
-}, {
-  "name" : "Hej",
-  "ageGroup" : "Vuxen",
-  "id" : "3091130"
-}, {
-  "name" : "Yes",
-  "ageGroup" : "Vuxen",
-  "id" : "5799761"
-}, {
-  "name" : "",
-  "ageGroup" : "Vuxen",
-  "id" : "4199227"
-}, {
-  "name" : "Jan",
-  "ageGroup" : "Vuxen",
-  "id" : "5288001"
-}, {
-  "name" : "kalle",
-  "ageGroup" : "Vuxen",
-  "id" : "4384812"
-}, {
-  "name" : "Johan",
-  "ageGroup" : "Vuxen",
-  "id" : "0906765"
-}, {
-  "name" : "Hasse",
-  "ageGroup" : "Vuxen",
-  "id" : "2747384"
-}, {
-  "name" : "William",
-  "ageGroup" : "Vuxen",
-  "id" : "9055796"
-}, {
-  "name" : "Kalle",
-  "ageGroup" : "Vuxen",
-  "id" : "1617360"
+  "id" : "6257723",
+  "rentalHistory" : [ "Bokad uthyrning:\n Utrustning: Fiskespö | 1 dagar | 500.0 kr\n", "Avslutad bokning:\n Utrustning: Fiskespö| 1 dagar | 500.0kr\n" ]
 } ]

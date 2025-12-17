@@ -1,6 +1,9 @@
-package com.skoglund.guiMethods.memberRegistryGUIMethods;
+package com.skoglund.gui.sceneWindows.memberRegistrySceneWindows;
 
 import com.skoglund.entity.Member;
+import com.skoglund.service.MembershipService;
+import com.skoglund.util.ValidationMethods;
+import com.skoglund.util.exceptions.InvalidInputException;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -14,18 +17,23 @@ import javafx.stage.Stage;
 
 public class EditMemberWindow {
 
-    public void editMember(Member member, TableView<Member> memberTableView) {
+    public EditMemberWindow(){
+
+    }
+
+    public void editMember(Member member, TableView<Member> memberTableView,
+                           MembershipService membershipService) {
         Stage editMemberStage = new Stage();
         editMemberStage.initModality(Modality.APPLICATION_MODAL);
         editMemberStage.setMinWidth(700);
         editMemberStage.setMinHeight(500);
         editMemberStage.setTitle("Ändra medlemsinformation");
 
-        Label titel = new Label("Ändra medlemsuppgifter");
-        titel.setStyle("-fx-font-size:22; -fx-padding: 7px;" +
+        Label titleLabel = new Label("Ändra medlemsuppgifter");
+        titleLabel.setStyle("-fx-font-size:22; -fx-padding: 7px;" +
                 "-fx-font-family:'Comic Sans MS'; -fx-font-weight: bold;");
-        VBox windowTitel = new VBox(titel);
-        windowTitel.setAlignment(Pos.CENTER);
+        VBox windowTitelVBox = new VBox(titleLabel);
+        windowTitelVBox.setAlignment(Pos.CENTER);
 
         TextField newNameTextFiled = new TextField();
         newNameTextFiled.setPromptText("Nytt namn:");
@@ -35,12 +43,12 @@ public class EditMemberWindow {
         newAgeGroupChoiceBox.getItems().addAll("Barn", "Ungdom", "Vuxen", "Pensionär");
         newAgeGroupChoiceBox.setValue("Vuxen");
 
-        Label instruction = new Label("Ändra medlemsinfo:");
-        instruction.setStyle("-fx-font-size:17; -fx-font-weight:bold;");
+        Label instructionLabel = new Label("Ändra medlemsinfo:");
+        instructionLabel.setStyle("-fx-font-size:17; -fx-font-weight:bold;");
 
-        HBox changesTextFields = new HBox(instruction,newNameTextFiled,newAgeGroupChoiceBox);
-        changesTextFields.setPadding(new Insets(0,0,0,10));
-        changesTextFields.setSpacing(15);
+        HBox changesTextFieldsHBox = new HBox(instructionLabel,newNameTextFiled,newAgeGroupChoiceBox);
+        changesTextFieldsHBox.setPadding(new Insets(0,0,0,10));
+        changesTextFieldsHBox.setSpacing(15);
 
         Label nameLabel = new Label("Namn:");
         nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 15;");
@@ -76,20 +84,27 @@ public class EditMemberWindow {
         saveButton.setStyle("-fx-background-color: green;" +
                 ";-fx-text-fill: white; -fx-font-weight: bold;");
         saveButton.setOnAction(e -> {
-            String newName = newNameTextFiled.getText();
-            String newAgeGroup = newAgeGroupChoiceBox.getValue();
+            try{
+                String newName = newNameTextFiled.getText();
+                ValidationMethods.validateMemberName(newName);
+                String newAgeGroup = newAgeGroupChoiceBox.getValue();
+                membershipService.changeMemberInfo(member, newName, newAgeGroup);
+                memberTableView.refresh();
 
-            member.setName(newName);
-            member.setAgeGroup(newAgeGroup);
-            memberTableView.refresh();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Klart!");
+                alert.setHeaderText(null);
+                alert.setContentText("Ändringar av medlem sparades!");
+                alert.showAndWait();
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Klart!");
-            alert.setHeaderText(null);
-            alert.setContentText("Ändringar av medlem sparades!");
-            alert.showAndWait();
-
-            editMemberStage.close();
+                editMemberStage.close();
+            }catch(InvalidInputException exception){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Fel");
+                alert.setHeaderText("Ändring av medlem misslyckades!");
+                alert.setContentText(exception.getMessage());
+                alert.showAndWait();
+            }
         });
 
         Button cancelButton = new Button("Avbryt");
@@ -97,27 +112,27 @@ public class EditMemberWindow {
                 ";-fx-text-fill: white; -fx-font-weight: bold;");
         cancelButton.setOnAction(e -> editMemberStage.close());
 
-        HBox buttons = new HBox(saveButton,cancelButton);
-        buttons.setAlignment(Pos.CENTER);
-        buttons.setPadding(new Insets(0,0,15,0));
-        buttons.setSpacing(180);
+        HBox buttonsHBox = new HBox(saveButton,cancelButton);
+        buttonsHBox.setAlignment(Pos.CENTER);
+        buttonsHBox.setPadding(new Insets(0,0,15,0));
+        buttonsHBox.setSpacing(180);
 
-        VBox buttonsAndTextfields = new VBox(changesTextFields,buttons);
-        buttonsAndTextfields.setSpacing(50);
+        VBox buttonsAndTextfieldsVBox = new VBox(changesTextFieldsHBox, buttonsHBox);
+        buttonsAndTextfieldsVBox.setSpacing(50);
 
         Label gridPaneTitel = new Label("Nuvarande uppgifter:");
         gridPaneTitel.setStyle("-fx-font-size: 16; -fx-font-weight: bold;");
         gridPaneTitel.setPadding(new Insets(0,0,0,10));
 
-        VBox showCurrentMemberInfo = new VBox(gridPaneTitel, currentMemberInfoGridPane);
-        showCurrentMemberInfo.setSpacing(7);
-        showCurrentMemberInfo.setPadding(new Insets(10));
+        VBox showCurrentMemberInfoVBox = new VBox(gridPaneTitel, currentMemberInfoGridPane);
+        showCurrentMemberInfoVBox.setSpacing(7);
+        showCurrentMemberInfoVBox.setPadding(new Insets(10));
 
 
         BorderPane rootLayout = new BorderPane();
-        rootLayout.setTop(windowTitel);
-        rootLayout.setBottom(buttonsAndTextfields);
-        rootLayout.setCenter(showCurrentMemberInfo);
+        rootLayout.setTop(windowTitelVBox);
+        rootLayout.setBottom(buttonsAndTextfieldsVBox);
+        rootLayout.setCenter(showCurrentMemberInfoVBox);
 
         Scene scene = new Scene(rootLayout);
         editMemberStage.setScene(scene);
